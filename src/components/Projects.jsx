@@ -1,6 +1,5 @@
 import React from "react";
 import { portfolioData } from "../portfolioData";
-import GlassCard from "./GlassCard";
 
 export default function Projects() {
   const { projects } = portfolioData;
@@ -13,7 +12,7 @@ export default function Projects() {
       
       <div className="projects-grid">
         {projects.map((project, idx) => (
-          <GlassCard key={idx} className="project-card">
+          <div key={idx} className="project-card">
             <div className="project-card-header">
               <h3 className="project-card-title">{project.title}</h3>
             </div>
@@ -78,7 +77,7 @@ export default function Projects() {
                 </a>
               )}
             </div>
-          </GlassCard>
+          </div>
         ))}
       </div>
     </div>

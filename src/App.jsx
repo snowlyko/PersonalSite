@@ -8,11 +8,24 @@ import GlassCard from "./components/GlassCard";
 
 function App() {
   const [activeModal, setActiveModal] = useState(null);
+  const [renderedModal, setRenderedModal] = useState(null);
 
   // Close modal handler
   const handleCloseModal = () => {
     setActiveModal(null);
   };
+
+  // Synchronize renderedModal with activeModal, delaying unmounting by 250ms during close to let transitions finish
+  useEffect(() => {
+    if (activeModal) {
+      setRenderedModal(activeModal);
+    } else {
+      const timer = setTimeout(() => {
+        setRenderedModal(null);
+      }, 200); // Match the 0.2s CSS closing transition
+      return () => clearTimeout(timer);
+    }
+  }, [activeModal]);
 
   // Keyboard shortcut support: close modal on Escape key press
   useEffect(() => {
@@ -53,10 +66,10 @@ function App() {
             ✕
           </button>
 
-          {/* Render modal content based on state */}
-          {activeModal === "projects" && <Projects />}
-          {activeModal === "skills" && <Skills />}
-          {activeModal === "contact" && <Contact />}
+          {/* Render modal content based on delayed renderedModal state */}
+          {renderedModal === "projects" && <Projects />}
+          {renderedModal === "skills" && <Skills />}
+          {renderedModal === "contact" && <Contact />}
         </GlassCard>
       </div>
     </>
