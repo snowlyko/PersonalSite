@@ -274,16 +274,10 @@ h1 {
   align-items: center;
   pointer-events: none;
   visibility: hidden;
-  opacity: 0; /* Fade overlay */
-  background-color: rgba(3, 7, 18, 0.65); /* Fallback dark overlay background */
+  opacity: 0;
+  background-color: rgba(3, 7, 18, 0.85); /* Dark overlay — opaque enough to hide background text */
   transition: opacity 0.2s ease, visibility 0.2s ease;
   padding: 1.5rem;
-}
-
-@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .modal-overlay {
-    background-color: rgba(3, 7, 18, 0.45); /* Apple-style translucent dark screen overlay */
-  }
 }
 
 .modal-overlay.open {
@@ -299,31 +293,23 @@ h1 {
   overflow-y: auto;
   padding: 2.5rem;
   position: relative;
-  transform: translateY(15px); /* Start slightly translated down */
-  opacity: 0; /* Fade card content smoothly */
+  transform: translateY(15px);
+  opacity: 0;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
-  background: rgba(10, 15, 30, 0.95) !important; /* Solid dark fallback card background */
-  border: 1px solid rgba(255, 255, 255, 0.14) !important; /* Crisp, thin white glass border outline */
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  
+  background: rgba(10, 15, 30, 0.97) !important; /* Near-opaque card — no text bleed regardless of blur support */
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(28px) saturate(200%); /* Enhancement only — card looks great without it */
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+
   /* Hide scrollbar while preserving scroll functionality */
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE/Edge */
-  
-  /* Force GPU rendering to prevent backdrop-filter rendering snap-in delay */
+  -ms-overflow-style: none; /* IE/Edge */
+
   will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d;
-}
-
-@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .modal-content {
-    background: rgba(15, 20, 35, 0.6) !important; /* Premium translucent glass background */
-    backdrop-filter: blur(28px) saturate(200%) !important; /* Blur only applied within the card content area */
-    -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
-    will-change: transform, opacity, backdrop-filter;
-  }
 }
 
 .modal-content::-webkit-scrollbar {
