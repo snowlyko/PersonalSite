@@ -262,14 +262,13 @@ h1 {
   box-shadow: 0 8px 36px 0 rgba(37, 99, 235, 0.15), var(--glass-shadow);
 }
 
-/* Modal Overlay Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(3, 7, 18, 0.92); /* Solid dark fallback to hide background text */
+  background-color: rgba(3, 7, 18, 0.6); /* Translucent dark fallback screen */
   z-index: 100;
   display: flex;
   justify-content: center;
@@ -278,15 +277,11 @@ h1 {
   pointer-events: none;
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 1.5rem;
-  transform: translate3d(0, 0, 0); /* Force GPU compositing */
 }
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .modal-overlay {
-    background-color: rgba(3, 7, 18, 0.45); /* Sleek translucent dark screen overlay */
-    backdrop-filter: blur(30px) saturate(220%); /* Apple-style blur and high saturation */
-    -webkit-backdrop-filter: blur(30px) saturate(220%);
-    will-change: backdrop-filter;
+    background-color: rgba(3, 7, 18, 0.45); /* Translucent dark overlay with no blur */
   }
 }
 
@@ -315,7 +310,9 @@ h1 {
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .modal-content {
-    background: rgba(10, 15, 30, 0.45) !important; /* Premium translucent glass background */
+    background: rgba(10, 15, 30, 0.65) !important; /* Premium translucent glass background */
+    backdrop-filter: blur(24px) saturate(190%) !important; /* Blur only applied within the card content area */
+    -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
   }
 }
 
