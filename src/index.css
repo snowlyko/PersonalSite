@@ -263,9 +263,9 @@ h1 {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(3, 7, 18, 0.88); /* Increased darkness of overlay to hide background */
-  backdrop-filter: blur(20px); /* Increased blur to completely dissolve background text */
-  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(3, 7, 18, 0.45); /* Sleek translucent dark screen overlay */
+  backdrop-filter: blur(30px) saturate(220%); /* Strong Apple-style blur and high saturation */
+  -webkit-backdrop-filter: blur(30px) saturate(220%);
   z-index: 100;
   display: flex;
   justify-content: center;
@@ -290,7 +290,9 @@ h1 {
   position: relative;
   transform: scale(0.92) translateY(20px);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  background: rgba(10, 15, 30, 0.82) !important; /* Increased opacity of modal card itself to prevent text bleeding through */
+  background: rgba(10, 15, 30, 0.45) !important; /* Premium translucent glass background */
+  border: 1px solid rgba(255, 255, 255, 0.14) !important; /* Crisp, thin white glass border outline */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   
   /* Hide scrollbar while preserving scroll functionality */
   scrollbar-width: none; /* Firefox */
