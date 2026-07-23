@@ -24,9 +24,17 @@ export const portfolioData = {
     github: "https://github.com/snowlyko",
     linkedin: "https://www.linkedin.com/in/suryanarayanks/",
     email: "mailto:Suryanarayan142006@gmail.com",
-    blog: "https://github.com/snowlyko/godhelp"
+    blog: "https://github.com/snowlyko/godhelp",
+    web3FormsKey: "ad536814-91ae-4c37-90f6-6b1bb7cff832"
   },
   projects: [
+    {
+      title: "ForLab",
+      description: "A zero-login file & code drop portal that lets you upload anything from lab PCs directly to Google Drive. Built with React, Vite, and Google Drive API integration.",
+      technologies: ["React", "Vite", "JavaScript", "Google Drive API", "CSS"],
+      githubLink: "https://github.com/snowlyko/ForLab",
+      demoLink: "https://forlab.vercel.app"
+    },
     {
       title: "ScriptQOL",
       description: "A Laravel-based web application designed to upload scripts, parse dialogue and screenplays, and perform textual analysis to improve quality-of-life for scriptwriters.",

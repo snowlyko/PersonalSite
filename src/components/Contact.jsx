@@ -17,21 +17,64 @@ export default function Contact() {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formState.name || !formState.email || !formState.message) return;
 
     setIsSubmitting(true);
 
-    // Simulate API request dispatch
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      setFormState({ name: "", email: "", message: "" });
+    const apiKey = import.meta.env.VITE_WEB3FORMS_KEY || socials.web3FormsKey;
 
-      // Reset success message after 5 seconds
-      setTimeout(() => setIsSuccess(false), 5000);
-    }, 1200);
+    // Check if key is unconfigured or placeholder
+    if (!apiKey || apiKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
+      // Fallback: Simulate API submission locally so UI works
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+        setFormState({ name: "", email: "", message: "" });
+        
+        // Reset success after 5s
+        setTimeout(() => setIsSuccess(false), 5000);
+        
+        console.warn(
+          "Contact form submitted in simulated MOCK mode. To send real emails, get a free Access Key at https://web3forms.com and add it to your .env file as VITE_WEB3FORMS_KEY."
+        );
+      }, 1000);
+      return;
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          access_key: apiKey,
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+          subject: `New Portfolio Message from ${formState.name}`,
+          from_name: "Developer Portfolio Contact"
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setIsSuccess(true);
+        setFormState({ name: "", email: "", message: "" });
+        setTimeout(() => setIsSuccess(false), 5000);
+      } else {
+        console.error("Web3Forms Submission Error:", result);
+        alert("Failed to send message: " + (result.message || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Contact Form Submission Error:", error);
+      alert("An error occurred while sending the message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Extract clean email address for text display

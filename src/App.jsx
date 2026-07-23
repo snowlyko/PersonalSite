@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import CanvasBackground from "./components/CanvasBackground";
 import Hero from "./components/Hero";
-import Projects from "./components/Projects";
-import Skills from "./components/Skills";
-import Contact from "./components/Contact";
+const Projects = React.lazy(() => import("./components/Projects"));
+const Skills = React.lazy(() => import("./components/Skills"));
+const Contact = React.lazy(() => import("./components/Contact"));
 import GlassCard from "./components/GlassCard";
 
 function App() {
@@ -66,10 +66,19 @@ function App() {
             ✕
           </button>
 
-          {/* Render modal content based on delayed renderedModal state */}
-          {renderedModal === "projects" && <Projects />}
-          {renderedModal === "skills" && <Skills />}
-          {renderedModal === "contact" && <Contact />}
+          {/* Render modal content based on delayed renderedModal state using Suspense for lazy-loading */}
+          <React.Suspense
+            fallback={
+              <div className="modal-loading">
+                <div className="loading-spinner"></div>
+                <span>Syncing details...</span>
+              </div>
+            }
+          >
+            {renderedModal === "projects" && <Projects />}
+            {renderedModal === "skills" && <Skills />}
+            {renderedModal === "contact" && <Contact />}
+          </React.Suspense>
         </GlassCard>
       </div>
     </>

@@ -99,12 +99,14 @@ export default function CanvasBackground() {
       }
     }
 
-    // Initialize particle array
+    // Initialize particle array with dynamic limits based on screen size
     const particles = [];
-    const densityFactor = 120; // Lower is more dense
+    const isMobile = window.innerWidth < 768;
+    const densityFactor = isMobile ? 150 : 130; // Spread out more on mobile
+    const maxParticles = isMobile ? 45 : 85;    // Lower desktop max from 180 to 85 to save CPU/GPU resources
     const particleCount = Math.min(
       Math.floor((canvas.width * canvas.height) / (densityFactor * densityFactor)),
-      180
+      maxParticles
     );
 
     for (let i = 0; i < particleCount; i++) {
@@ -151,16 +153,25 @@ export default function CanvasBackground() {
       }
     };
 
+    // Track tab visibility to pause animation loop when page is inactive
+    let isTabVisible = true;
+    const handleVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     // Animation Loop
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (isTabVisible) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      particles.forEach((particle) => {
-        particle.update();
-        particle.draw();
-      });
+        particles.forEach((particle) => {
+          particle.update();
+          particle.draw();
+        });
 
-      drawLines();
+        drawLines();
+      }
 
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -172,6 +183,7 @@ export default function CanvasBackground() {
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
